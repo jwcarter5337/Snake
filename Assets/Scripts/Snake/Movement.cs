@@ -4,38 +4,47 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [InspectorName("UpButton")] public KeyCode Up;
     [InspectorName("RightButton")] public KeyCode Right;
     [InspectorName("LeftButton")] public KeyCode Left;
 
     public GameObject SnakeHeadOb;
     private Rigidbody2D SnakeHead;
-    private Rigidbody2D SnakeBody;
-    public int SnakeSpeed;
-    private float revSpeed = 50.0f;
+    public Vector3 SnakeTurn;
+
+    //private float revSpeed = 50.0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
         SnakeHead = GetComponent<Rigidbody2D>();
-        SnakeBody = GetComponent<Rigidbody2D>();
+        SnakeHead.velocity = new Vector2(2, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(Up))
-        {
-            SnakeHead.velocity = new Vector2(2, 0);
-        }
+    
     }
 
     void FixedUpdate()
     {
+
+        Quaternion targetRotation = Quaternion.LookRotation(SnakeTurn);
+
         if (Input.GetKey(Right))
         {
-            SnakeHead.MoveRotation(SnakeHead.rotation + revSpeed *Time.fixedDeltaTime);
+            targetRotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                360 * Time.fixedDeltaTime);
+        }
+        if (Input.GetKey(Left))
+        {
+            targetRotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                -360 * Time.fixedDeltaTime);
         }
     }
 }
