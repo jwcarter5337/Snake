@@ -23,24 +23,31 @@ public class Movement : MonoBehaviour
         //SnakeHeadOb.velocity = new Vector2(0, 1);
     }
 
+    private Vector2 _lastAnalogForward;
+
     // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
+        
         Vector2 movementDirection = new Vector2(horizontalInput, verticalInput);
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
 
-        transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
-
         if (movementDirection !=Vector2.zero)
         {
+            if (inputMagnitude > 0.2)
+            {
+                _lastAnalogForward = movementDirection;
+            }
+
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-
         }
+        
+        var moveDirection = new Vector3(_lastAnalogForward.x, _lastAnalogForward.y, 0);
+        transform.position += moveDirection * speed * Time.deltaTime;
     }
 
     //void FixedUpdate()
