@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -34,7 +35,7 @@ public class Movement : MonoBehaviour
         Vector2 movementDirection = new Vector2(horizontalInput, verticalInput);
         float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         movementDirection.Normalize();
-
+        //transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
         if (movementDirection !=Vector2.zero)
         {
             if (inputMagnitude > 0.2)
