@@ -38,7 +38,7 @@ public class Movement : MonoBehaviour
         //transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
         if (movementDirection !=Vector2.zero)
         {
-            if (inputMagnitude > 0.2)
+            //if (inputMagnitude > 0.3)
             {
                 _lastAnalogForward = movementDirection;
             }
