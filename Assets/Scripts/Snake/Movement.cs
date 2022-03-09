@@ -4,47 +4,64 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [InspectorName("RightButton")] public KeyCode Right;
-    [InspectorName("LeftButton")] public KeyCode Left;
+    //[InspectorName("RightButton")] public KeyCode Right;
+    //[InspectorName("LeftButton")] public KeyCode Left;
 
-    public GameObject SnakeHeadOb;
-    private Rigidbody2D SnakeHead;
-    public Vector3 SnakeTurn;
+    //public GameObject SnakeHead;
+    //public Rigidbody2D SnakeHeadOb;
+    public float speed;
+    public float rotationSpeed;
 
     //private float revSpeed = 50.0f;
 
 
     // Start is called before the first frame update
+
     void Start()
     {
-        SnakeHead = GetComponent<Rigidbody2D>();
-        SnakeHead.velocity = new Vector2(2, 0);
+        //SnakeHeadOb = GetComponent<Rigidbody2D>();
+        //SnakeHeadOb.velocity = new Vector2(0, 1);
     }
 
     // Update is called once per frame
     void Update()
     {
-    
-    }
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-    void FixedUpdate()
-    {
+        Vector2 movementDirection = new Vector2(horizontalInput, verticalInput);
+        float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+        movementDirection.Normalize();
 
-        Quaternion targetRotation = Quaternion.LookRotation(SnakeTurn);
+        transform.Translate(movementDirection * speed * inputMagnitude * Time.deltaTime, Space.World);
 
-        if (Input.GetKey(Right))
+        if (movementDirection !=Vector2.zero)
         {
-            targetRotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRotation,
-                360 * Time.fixedDeltaTime);
-        }
-        if (Input.GetKey(Left))
-        {
-            targetRotation = Quaternion.RotateTowards(
-                transform.rotation,
-                targetRotation,
-                -360 * Time.fixedDeltaTime);
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+
         }
     }
-}
+
+    //void FixedUpdate()
+    //{
+
+    //    //Quaternion targetRotation = Quaternion.LookRotation(SnakeTurn);
+
+    //    if (Input.GetKey(Right))
+    //    {
+    //        SnakeHead.MoveRotation(SnakeHead.rotation - 90 * Time.fixedDeltaTime);
+    //        //targetRotation = Quaternion.RotateTowards(
+    //        //    transform.rotation,
+    //        //    targetRotation,
+    //        //    360 * Time.fixedDeltaTime);
+    //    }
+    //    if (Input.GetKey(Left))
+    //    {
+    //        SnakeHead.MoveRotation(SnakeHead.rotation + 90 * Time.fixedDeltaTime);
+    //        //targetRotation = Quaternion.RotateTowards(
+    //        //    transform.rotation,
+    //        //    targetRotation,
+    //        //    -360 * Time.fixedDeltaTime);
+    //    }
+    }
