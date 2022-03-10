@@ -10,40 +10,40 @@ public class Food : MonoBehaviour
     public Transform borderRight;
     public Transform borderBottom;
     public GameObject snakeHead;
+    //public BoxCollider2D foodbc;
     private bool ate;
 
     void Start()
     {
         ate = false;
-        int x = (int)Random.Range(BorderLeft.position.x, borderRight.position.x);
-        int y = (int)Random.Range(borderTop.position.y, borderBottom.position.y);
+        int x = (int) Random.Range(BorderLeft.position.x, borderRight.position.x);
+        int y = (int) Random.Range(borderTop.position.y, borderBottom.position.y);
 
         Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
+        //Instantiate(foodbc, new Vector2(x, y), Quaternion.identity);
     }
 
-    void Spawn()
-    {
-        int x = (int) Random.Range(BorderLeft.position.x,borderRight.position.x);
-        int y = (int)Random.Range(borderTop.position.y, borderBottom.position.y);
-
-        Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
-    }
-
-    //void Update()
+    //void Spawn()
     //{
-        void OnTriggerEnter2D(Collider2D coll)
+    //    int x = (int) Random.Range(BorderLeft.position.x, borderRight.position.x);
+    //    int y = (int) Random.Range(borderTop.position.y, borderBottom.position.y);
+
+    //    Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
+    //}
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Triggers detected");
+        if (other.gameObject.tag == "food")
         {
-            //if (coll.gameObject.tag == "food")
-            {
-                // Get longer in next Move call
-                ate = true;
-                
-                Debug.Log("dicks");
+            // get longer in next move call
+            ate = true;
 
-                // Remove the Food
-                Destroy (coll.gameObject);
+            Debug.Log("dicks");
 
-            }
-            // Collided with Tail or Border
+            // Remove the Food
+
+            Destroy(other.gameObject);
         }
     }
+}

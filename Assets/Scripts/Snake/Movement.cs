@@ -42,7 +42,21 @@ public class Movement : MonoBehaviour
         var moveDirection = new Vector3(_lastAnalogForward.x, _lastAnalogForward.y, 0);
         transform.position += moveDirection * speed * Time.deltaTime;
     }
+    //void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other != null && other.tag != "food")
+    //    {
+    //        // Get longer in next Move call
+    //        //ate = true;
 
+    //        Debug.Log("dicks");
+
+    //        // Remove the Food
+
+    //        Destroy(other.gameObject);
+
+    //    }
+    //}
     //void OnTriggerEnter2D(Collider2D coll)
     //{
     //    if (coll.tag == "snakeHead")
