@@ -4,29 +4,46 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    void DestroyGameObject()
+    public GameObject foodPrefab;
+    public Transform borderTop;
+    public Transform BorderLeft;
+    public Transform borderRight;
+    public Transform borderBottom;
+    public GameObject snakeHead;
+    private bool ate;
+
+    void Start()
     {
-        Destroy(gameObject);
+        ate = false;
+        int x = (int)Random.Range(BorderLeft.position.x, borderRight.position.x);
+        int y = (int)Random.Range(borderTop.position.y, borderBottom.position.y);
+
+        Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
     }
 
-    void DestroyScriptInstance()
+    void Spawn()
     {
-        // Removes this script instance from the game object
-        Destroy(this);
+        int x = (int) Random.Range(BorderLeft.position.x,borderRight.position.x);
+        int y = (int)Random.Range(borderTop.position.y, borderBottom.position.y);
+
+        Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
     }
 
-    void DestroyComponent()
-    {
-        // Removes the rigidbody from the game object
-        Destroy(GetComponent<Rigidbody>());
-    }
-    // When the user presses Ctrl, it will remove the
-    // BoxCollider component from the game object
-    void OnCollisionEnter2D()
-    {
-        if ( && GetComponent<BoxCollider>())
+    //void Update()
+    //{
+        void OnTriggerEnter2D(Collider2D coll)
         {
-            Destroy(GetComponent<BoxCollider>());
+            //if (coll.gameObject.tag == "food")
+            {
+                // Get longer in next Move call
+                ate = true;
+                
+                Debug.Log("dicks");
+
+                // Remove the Food
+                Destroy (coll.gameObject);
+
+            }
+            // Collided with Tail or Border
         }
     }
-}
