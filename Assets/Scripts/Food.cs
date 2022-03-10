@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    public GameObject SnakeHead;
-    public Rigidbody2D Foodrb;
-
-    // Start is called before the first frame update
-    void Start()
+    void DestroyGameObject()
     {
-        Foodrb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject);
     }
 
-    private void DestroyGameObject(Collision2D FoodGameObject)
+    void DestroyScriptInstance()
     {
-        if(FoodGameObject.gameObject.name == "SnakeHead")
-        Destroy(FoodGameObject.gameObject);
-        Debug.Log("Dicks");
+        // Removes this script instance from the game object
+        Destroy(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    void DestroyComponent()
     {
-        
+        // Removes the rigidbody from the game object
+        Destroy(GetComponent<Rigidbody>());
+    }
+    // When the user presses Ctrl, it will remove the
+    // BoxCollider component from the game object
+    void OnCollisionEnter2D()
+    {
+        if ( && GetComponent<BoxCollider>())
+        {
+            Destroy(GetComponent<BoxCollider>());
+        }
     }
 }
