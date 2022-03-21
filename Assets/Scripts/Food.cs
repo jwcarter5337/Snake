@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Food : MonoBehaviour
 {
@@ -9,13 +10,16 @@ public class Food : MonoBehaviour
     public Transform BorderLeft;
     public Transform borderRight;
     public Transform borderBottom;
-    public GameObject snakeHead;
     //public BoxCollider2D foodbc;
-    private bool ate;
+    //private bool ate;
+
+    Vector3 lastUpdate;
+
+
 
     void Start()
     {
-        ate = false;
+        //ate = false;
         int x = (int) Random.Range(BorderLeft.position.x, borderRight.position.x);
         int y = (int) Random.Range(borderTop.position.y, borderBottom.position.y);
 
@@ -33,17 +37,23 @@ public class Food : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Triggers detected");
         if (other.gameObject.tag == "food")
         {
-            // get longer in next move call
-            ate = true;
-
-            Debug.Log("dicks");
-
-            // Remove the Food
-
+            //ate = true;
             Destroy(other.gameObject);
+
+            //spawn new food
+            int x = (int)Random.Range(BorderLeft.position.x, borderRight.position.x);
+            int y = (int)Random.Range(borderTop.position.y, borderBottom.position.y);
+
+            Instantiate(foodPrefab, new Vector2(x, y), Quaternion.identity);
+            
         }
+        //if (other.gameObject.tag == "Border" || other.gameObject.tag == "SnakeBody")
+        //{
+        //    Debug.Log("Game Over");
+        //}
+        //if (other.gameObject.tag == "Border")
+        //to do: game over screen
     }
 }
