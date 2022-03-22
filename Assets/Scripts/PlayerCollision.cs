@@ -25,6 +25,7 @@ public class PlayerCollision : MonoBehaviour
         if (other.gameObject.tag == "Border" || other.gameObject.tag == "SnakeBody")
         {
             gameOverUI.SetActive(true);
+            FindObjectOfType<AudioManager>().Play("GameOverSound");
         }
     }
 }

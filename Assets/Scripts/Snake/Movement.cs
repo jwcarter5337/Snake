@@ -43,20 +43,16 @@ public class Movement : MonoBehaviour
             }
 
             Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
-            transform.rotation =
-                Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
 
         var moveDirection = new Vector3(_lastAnalogForward.x, _lastAnalogForward.y, 0);
         transform.position += moveDirection * speed * Time.deltaTime;
 
-        //spawn new body
-       
-
-
-        //foreach (var coords in coords)
+        //Play sound when right is pressed
+        //if (movementDirection == Vector2.up)
         //{
-       
+        //    FindObjectOfType<AudioManager>().Play("SnakeSound");
         //}
 
     }
@@ -72,12 +68,12 @@ public class Movement : MonoBehaviour
 
             //spawn a tail piece;
             var tempEndTail = endTail;
-
             endTail = Instantiate(Body, spawnPos, Quaternion.identity);
-
             var tail = endTail.GetComponent<Tail>();
-
             tail.obToFollow = tempEndTail;
+
+            //Play food sound
+            FindObjectOfType<AudioManager>().Play("FoodPickup");
         }
 
         if (other.gameObject.tag == "Border" || other.gameObject.tag == "SnakeBody")
